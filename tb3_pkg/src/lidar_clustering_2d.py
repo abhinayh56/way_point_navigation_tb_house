@@ -97,6 +97,12 @@ def scan_callback(msg):
     x_scan = []
     y_scan = []
 
+    r_scan_num = []
+    th_scan_num = []
+
+    x_scan_num = []
+    y_scan_num = []
+
     for i in range(0,len(r)):
         r_scan.append(r[i])
         th_scan.append(i*math.pi/180.0)
@@ -104,6 +110,13 @@ def scan_callback(msg):
         global X, Y, th, V, W
         x_scan.append(X + r[i]*math.cos(th+i*math.pi/180.0))
         y_scan.append(Y + r[i]*math.sin(th+i*math.pi/180.0))
+
+        if(math.isinf(r[i])):
+            x_scan_num.append(15)
+            y_scan_num.append(15)
+        else:
+            x_scan_num.append(X + r[i]*math.cos(th+i*math.pi/180.0))
+            y_scan_num.append(Y + r[i]*math.sin(th+i*math.pi/180.0))
 
     print(type(r_scan), type(th_scan))
 
@@ -136,6 +149,39 @@ def scan_callback(msg):
     plt.title('polar plot')
     plt.grid(True)
 
+    plt.subplot(2,2,3)
+    plt.plot(x_scan_num, y_scan_num,'b')
+    plt.xlabel('x (m)')
+    plt.ylabel('y (m)')
+    plt.title('cartesian plot')
+    plt.grid(True)
+    plt.axis('equal')
+
+    # clustering algorithms
+    K = 1
+    k_r = []
+    k_th = []
+
+    for i in range(0,len(r)):
+        if(math.isinf(r[i])):
+            k_r.append(0)
+            k_th.append(i*math.pi/180.0)
+
+    # find centroid
+    sum_r = 0.0
+    sum_th = 0.0
+    for i in range(0,len(k_r)):
+        sum_r = sum_r + k_r[i]
+        sum_th = sum_th + k_th[i]
+    r_mean = sum_r / len(k_r)
+    th_mean = sum_th / len(k_th)
+
+    plt.subplot(2,2,4)
+    plt.plot(th_scan, r_scan,'b',k_th,k_r,'r')
+    plt.xlabel('th (rad)')
+    plt.ylabel('radius (m)')
+    plt.title('polar plot')
+    plt.grid(True)
 
     plt.show()
 

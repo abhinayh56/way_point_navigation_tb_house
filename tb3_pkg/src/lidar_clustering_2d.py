@@ -175,12 +175,13 @@ def scan_callback(msg):
         sum_th = sum_th + k_th[i]
     r_mean = sum_r / len(k_r)
     th_mean = sum_th / len(k_th)
+    print(th_mean)
 
     plt.subplot(2,2,4)
     plt.plot(th_scan, r_scan,'b',k_th,k_r,'r')
     plt.xlabel('th (rad)')
     plt.ylabel('radius (m)')
-    plt.title('polar plot')
+    plt.title('free space in polar plot th: ' + str(round(th_mean,2)))
     plt.grid(True)
 
     plt.show()

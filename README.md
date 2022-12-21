@@ -25,5 +25,5 @@ rosrun tb3_pkg follow_wp.py
 ### Terminal 7 right (just to print velocity and position information)
 rostopic echo /odom
 
-### Terminal 8 (clustering using lidar for finding free spackes)
+### Terminal 8 (clustering using lidar for finding free spaces)
 rosrun tb3_pkg lidar_clustering_2d.py
